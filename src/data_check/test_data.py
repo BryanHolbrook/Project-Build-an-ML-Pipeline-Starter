@@ -5,7 +5,7 @@ import scipy.stats
 
 def test_column_names(data):
 
-    expected_colums = [
+    expected_columns = [
         "id",
         "name",
         "host_id",
@@ -27,7 +27,7 @@ def test_column_names(data):
     these_columns = data.columns.values
 
     # This also enforces the same order
-    assert list(expected_colums) == list(these_columns)
+    assert list(expected_columns) == list(these_columns)
 
 
 def test_neighborhood_names(data):
@@ -63,3 +63,15 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
 ########################################################
 # Implement here test_row_count and test_price_range   #
 ########################################################
+def test_row_count(data):
+    """
+    Ensure the dataset contains a reasonable number of rows.
+    """
+    assert 15000 < data.shape[0] < 1000000, "Row count is out of range!"
+
+
+def test_price_range(data, min_price, max_price):
+    """
+    Ensure that all prices are within the specified range.
+    """
+    assert data["price"].between(min_price, max_price).all(), "Prices out of range!"
