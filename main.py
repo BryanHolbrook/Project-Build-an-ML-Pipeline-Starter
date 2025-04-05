@@ -114,17 +114,21 @@ def go(config: DictConfig):
                     "stratify_by": config['modeling']['stratify_by'],
                     "rf_config": rf_config,
                     "max_tfidf_features": config['modeling']['max_tfidf_features'],
-                    "output_artifact": "random_forest_export",
+                    "output_artifact": "random_forest_export"
                 },
             )
 
             pass
 
         if "test_regression_model" in active_steps:
-
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "components", "test_regression_model"),
+                "main",
+                parameters={
+                    "mlflow_model": "random_forest_export:prod",
+                    "test_dataset": "test_data.csv:latest"
+                },
+            )
             pass
 
 
